@@ -20,8 +20,8 @@ const router = createBrowserRouter([
         {
           path: "/update/:id",
           element: <Update />
-        }
-      ]
+        },
+      ],
     }
   ],
   {
