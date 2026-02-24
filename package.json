@@ -1,7 +1,7 @@
 {
   "name": "calendar",
   "private": true,
-  "homepage": "http://FloMurekian.github.io/calendar/",
+  "homepage": "http://flomurekian.github.io/calendar/",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
