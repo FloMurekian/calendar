@@ -2,6 +2,8 @@ import '../App.css'
 import old from '../assets/old.png'
 import EventList from '../event/EventList'
 import Searchfield from '../components/Searchfiled'
+import Footer from '../components/Footer'
+import Header from '../components/Header'
 import { useEffect, useState } from 'react'
 
 function DefaultPage() {
@@ -80,11 +82,10 @@ const filteredEventsdesc = sortedEvents.filter(event =>
   return (
     <div>
       <img src={old} alt="Old" />
-      
+      <Header />
       <Searchfield handleinput={handleFilterChange} filter={filterText} />
       <EventList events={filteredEvents} />
-      <EventList events={filteredEventsdesc} />
-      
+      <Footer />
     </div>
   )
 }
