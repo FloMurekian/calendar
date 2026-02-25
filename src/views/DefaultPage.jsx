@@ -2,8 +2,7 @@ import '../App.css'
 import old from '../assets/old.png'
 import EventList from '../event/EventList'
 import Searchfield from '../components/Searchfiled'
-import Footer from '../components/Footer'
-import Header from '../components/Header'
+
 import { useEffect, useState } from 'react'
 
 function DefaultPage() {
@@ -22,43 +21,7 @@ useEffect(() => {
   localStorage.setItem('filterTextinStorage', filterText);
 }, [filterText]);
 
-const events = [
-        {
-          id: 1,
-          title: 'Meeting',
-          date: '2026-02-22',
-          description: "About party in Aarhus",
-        },
-      
-        {
-          id: 2,
-          title: 'Workshop',
-          date: '2026-01-26',
-          description: "Designing a new app",
-        },
 
-        {
-          id: 3,
-          title: 'This',
-          date: '2026-01-30',
-          description: "Birthday",
-        },
-
-        {
-          id: 4,
-          title: 'Workshop',
-          date: '2026-05-14',
-          description: "Else",
-        },
-
-         {
-          id: 5,
-          title: 'Workshop',
-          date: '2026-02-18',
-          description: "Designing a new app",
-        }
-
-      ];
 
   const sortedEvents = events.toSorted((a, b) => 
         a.date.localeCompare(b.date, "en", { sensitivity: "base" })
@@ -71,23 +34,36 @@ const filteredEvents = sortedEvents.filter(event =>
     event.title.toLowerCase().includes(filterText.toLowerCase())
   );
 
-const filteredEventsdesc = sortedEvents.filter(event =>
-    event.description.toLowerCase().includes(filterText.toLowerCase())
-  );
 
-  function handleFilterChange(event) {
-    setFilterText(event.target.value)
-  }
+const [events, setEvents] = useState(() => {
+  const savedEvents = localStorage.getItem('events');
+  return savedEvents ? JSON.parse(savedEvents) : [];
+});
+
+useEffect(() => {
+  localStorage.setItem('events', JSON.stringify(events));
+}, 
+[events]);
+
+const handleInputChange = (event) => {
+  setFilterText(event.target.value);
+};
 
   return (
-    <div>
+   <>
       <img src={old} alt="Old" />
-      <Header />
-      <Searchfield handleinput={handleFilterChange} filter={filterText} />
-      <EventList events={filteredEvents} />
-      <Footer />
-    </div>
-  )
-}
+
+{filteredEvents.length > 0 ? (
+<div>
+      <Searchfield handleInput={handleInputChange} filter={filterText} />
+      <EventList events={filteredEvents} setEvents={setEvents} />
+</div>
+) : (
+    <p>No events found.</p>
+  )}
+  </>
+  );
+  }
+
 
 export default DefaultPage;
